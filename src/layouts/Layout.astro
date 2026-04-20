@@ -1,0 +1,103 @@
+---
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="Gala Event - Comparte tus fotos y videos del evento" />
+    <link rel="icon" type="image/png" href="/gala-icon.png" />
+    <title>{title} | Gala Event</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <style is:global>
+      :root {
+        --primary: #d4af37;
+        --primary-light: #f0d060;
+        --bg-dark: #0a0a0b;
+        --bg-card: #111114;
+        --glass-border: rgba(212, 175, 55, 0.15);
+        --text-muted: #8e8e8e;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        font-family: 'Outfit', sans-serif;
+        background-color: var(--bg-dark);
+        color: #fff;
+        min-height: 100dvh;
+      }
+
+      .header {
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid var(--glass-border);
+      }
+
+      .header h1 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--primary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      main { padding: 20px; display: flex; justify-content: center; }
+
+      .glass-container {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 2rem;
+        backdrop-filter: blur(10px);
+      }
+
+      .btn-gold {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        color: #000;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 50px;
+        padding: 14px 32px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: opacity 0.2s, transform 0.2s;
+      }
+
+      .btn-gold:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <h1>Gala Event</h1>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

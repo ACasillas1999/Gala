@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DomeSimple from '../components/DomeSimple.jsx';
+---
+
+<Layout title="Dome 2">
+  <div style="width: 100vw; height: 100vh; position: fixed; inset: 0;">
+    <DomeSimple client:only="react" />
+  </div>
+</Layout>

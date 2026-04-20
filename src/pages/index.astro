@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+import QRCode from 'qrcode';
+import StackWithData from '../components/StackWithData.tsx';
+
+const uploadUrl = `${Astro.url.origin}/upload`;
+const qrDataUrl = await QRCode.toDataURL(uploadUrl, {
+  width: 300,
+  margin: 2,
+  color: { dark: '#d4af37', light: '#0a0a0b' },
+});
+
+const defaultImages = [
+  "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=500&auto=format",
+  "https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=500&auto=format",
+  "https://images.unsplash.com/photo-1452626212852-811d58933cae?q=80&w=500&auto=format",
+  "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?q=80&w=500&auto=format"
+];
+---
+<Layout title="Inicio">
+  <div class="home-card glass-container fade-in">
+    <div style="width: 208px; height: 208px; margin: 0 auto; margin-bottom: 2rem;">
+      <StackWithData 
+        client:load
+        randomRotation 
+        sensitivity={180} 
+        sendToBackOnClick={true} 
+        pauseOnHover 
+      />
+    </div>
+    <div class="qr-ring">
+      <img src={qrDataUrl} alt="QR Code" class="qr-img" />
+    </div>
+    <h2>Escanea y comparte</h2>
+    <p class="subtitle">Captura el momento y súbelo a la galería del evento.</p>
+
+    <div class="url-pill">
+      <span>{uploadUrl}</span>
+    </div>
+
+    <div class="actions">
+      <a href="/upload" class="btn-gold">Subir Contenido</a>
+      <a href="/gallery" class="btn-outline">Ver Galería</a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .home-card {
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    padding: 2.5rem 2rem;
+    position: relative;
+  }
+  .home-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    border-radius: 20px 20px 0 0;
+  }
+  .qr-ring {
+    display: inline-block;
+    padding: 8px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    margin-bottom: 1.5rem;
+  }
+  .qr-img {
+    display: block;
+    border-radius: 14px;
+    width: 250px;
+    height: 250px;
+  }
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+  .url-pill {
+    background: rgba(212,175,55,0.08);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    padding: 8px 16px;
+    margin-bottom: 2rem;
+    font-size: 0.8rem;
+    color: var(--primary);
+    letter-spacing: 0.5px;
+    word-break: break-all;
+  }
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .btn-outline {
+    display: inline-block;
+    padding: 14px 32px;
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+</style>

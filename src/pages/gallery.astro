@@ -1,0 +1,307 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GalleryGrid from '../components/GalleryGrid';
+import DomeGallery from '../components/DomeGallery.jsx';
+import '../components/DomeGallery.css';
+---
+<Layout title="Galería">
+  <div class="gallery-container fade-in">
+    <!-- Header -->
+    <header class="gallery-header">
+      <div class="event-title">
+        <h2>Boda</h2>
+      </div>
+      <div class="header-actions">
+        <a href="/" class="btn-gold" style="padding: 10px 20px; font-size: 14px;">Escanear QR</a>
+      </div>
+    </header>
+
+ <!--   <div style="width: 100%; height: 60vh; position: relative;">
+      <DomeGallery client:only="react" />
+    </div>-->
+
+    <!-- React-powered gallery -->
+    <GalleryGrid client:load />
+  </div>
+</Layout>
+
+<style>
+  .gallery-container {
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-top: -20px;
+    max-width: 100vw;
+    padding-top: 0;
+  }
+
+  /* Header */
+  .gallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--glass-border);
+    margin-bottom: 0;
+  }
+  .event-title h2 {
+    font-weight: 600;
+    font-size: 24px;
+    margin: 0;
+    letter-spacing: 1px;
+  }
+
+  /* Tabs (rendered by React, styled globally) */
+  :global(.gallery-tabs) {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px;
+    border-bottom: 1px solid var(--glass-border);
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+  }
+  :global(.tab) {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: transparent;
+    font-family: 'Outfit', sans-serif;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+  :global(.tab:hover) {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  :global(.tab.active) {
+    color: #000;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+  }
+  :global(.tab svg) { 
+    transition: transform 0.3s ease; 
+    opacity: 0.7;
+  }
+  :global(.tab.active svg) { 
+    color: #000 !important; 
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  /* Grid */
+  :global(.media-grid) {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    padding: 6px;
+  }
+  @media (max-width: 1200px) {
+    :global(.media-grid) { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 768px) {
+    :global(.media-grid) { grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 3px; }
+    .gallery-header { padding: 14px 16px; }
+    :global(.gallery-tabs) { gap: 30px; }
+  }
+
+  :global(.photo-card) {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    background: #111;
+  }
+  :global(.photo-card:hover img),
+  :global(.photo-card:hover video) { transform: scale(1.03); }
+  :global(.photo-card img),
+  :global(.photo-card video) {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+    display: block;
+  }
+  :global(.video-icon) {
+    position: absolute;
+    top: 8px; right: 8px;
+    color: white;
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.6));
+  }
+
+  /* Empty state */
+  :global(.empty-state) {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+  }
+
+  /* Modal Style: Instagram style */
+  :global(.modal-backdrop) {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    padding: 20px;
+    animation: modalIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  :global(.modal-card) {
+    background: #000;
+    width: 100%;
+    max-width: 1100px;
+    height: 85vh;
+    max-height: 800px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+    border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+  }
+  :global(.modal-content-split) {
+    display: flex;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  :global(.modal-left) {
+    flex: 1.4;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+  }
+  :global(.modal-left video),
+  :global(.modal-left img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  :global(.modal-right) {
+    flex: 0.6;
+    background: #0a0a0a;
+    border-left: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+  }
+
+  :global(.modal-info-header) {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  :global(.guest-avatar) {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #D4AF37, #F9D976);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: 800;
+    font-size: 14px;
+  }
+  :global(.modal-right-name) {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+  }
+  
+  :global(.modal-info-body) {
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+  }
+  
+  :global(.modal-dedication) {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 16px;
+    border-radius: 12px;
+    color: #ddd;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    font-style: italic;
+    position: relative;
+  }
+  :global(.modal-dedication svg) {
+    color: var(--primary);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  :global(.modal-close-btn) {
+    position: absolute;
+    top: 15px; right: 15px;
+    color: #fff;
+    font-size: 24px;
+    background: rgba(0,0,0,0.4);
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    backdrop-filter: blur(5px);
+  }
+  :global(.modal-close-btn:hover) {
+    background: #fff; color: #000;
+    transform: rotate(90deg);
+  }
+
+  /* Mobile Adjustments */
+  @media (max-width: 768px) {
+    :global(.modal-card) {
+      height: auto;
+      max-height: 90vh;
+      width: 95vw;
+    }
+    :global(.modal-content-split) {
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    :global(.modal-left) {
+      flex: none;
+      aspect-ratio: 1/1;
+      width: 100%;
+    }
+    :global(.modal-right) {
+      flex: none;
+      width: 100%;
+      border-left: none;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    :global(.modal-info-body) {
+      padding: 16px;
+    }
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+</style>

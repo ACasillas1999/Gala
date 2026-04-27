@@ -43,12 +43,14 @@ export default function GalleryGrid() {
 
   const filtered = photos.filter(p => tab === 'all' || p.type === tab);
 
-  const domeImages = filtered.map(p => ({
-    src: `/${p.path}`,
-    alt: p.guest_name || 'Foto',
-    type: p.type,
-    photo: p // Keep original photo object
-  }));
+  const domeImages = filtered
+    .filter(p => p.type === 'image')
+    .map(p => ({
+      src: `/${p.path}`,
+      alt: p.guest_name || 'Foto',
+      type: p.type,
+      photo: p // Keep original photo object
+    }));
 
   return (
     <>

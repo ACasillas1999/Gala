@@ -23,16 +23,18 @@ export default function DomeWithData() {
     return () => clearInterval(interval);
   }, []);
 
-  const grouped = photos.reduce((acc, p) => {
-    const key = p.guest_name || 'Anónimo';
-    if (!acc[key]) acc[key] = { guest_name: key, photos: [] };
-    acc[key].photos.push({
-      src: `/${p.path}`,
-      alt: p.guest_name || 'Foto',
-      type: p.type || 'image'
-    });
-    return acc;
-  }, {});
+  const grouped = photos
+    .filter((p: any) => p.type === 'image')
+    .reduce((acc: any, p: any) => {
+      const key = p.guest_name || 'Anónimo';
+      if (!acc[key]) acc[key] = { guest_name: key, photos: [] };
+      acc[key].photos.push({
+        src: `/${p.path}`,
+        alt: p.guest_name || 'Foto',
+        type: p.type || 'image'
+      });
+      return acc;
+    }, {});
 
   const userAlbums = Object.values(grouped);
 
